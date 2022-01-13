@@ -1,0 +1,3 @@
+ein quaterion ist ein vektor mit 4 elementen für die orientierung
+1-3. elemente drehachse
+4. elemente winkel um drehachse 

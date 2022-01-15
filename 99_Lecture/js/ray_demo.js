@@ -3,7 +3,7 @@ import { MeshSet, Line } from './geo.js';
 
 // gloabl variables
 let lifeLeft = 3;
-let difficulty = 50;
+let difficulty = 50; // bigger means less balls
 let ballsOnBegin = 3;
 
 

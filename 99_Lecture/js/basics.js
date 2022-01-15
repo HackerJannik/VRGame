@@ -14,7 +14,6 @@ export function Scene() {
 
     let camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
     camera.position.set(0, 0, 3);
-    console.log(camera.focus);
     scene.add(camera);
 
     return {

@@ -1,6 +1,9 @@
 import { THREE } from './app.js'
 import { MeshSet, Line } from './geo.js';
 
+// gloabl variables
+let lifeLeft = 3;
+
 export function ray_demo(scene, options, camera) {
     let meshes = MeshSet(scene);
     //for laser line
@@ -35,26 +38,27 @@ export function ray_demo(scene, options, camera) {
         return Math.random() * MAX_RANDOM - (MAX_RANDOM / 2);
     }
 
-    
+    // generates a random x value (width)
     function RNDX() {
         if(Math.round(Math.random()) == 1){
-            return Math.random() * 10;
+            return Math.random() * 3;
         }else{
-            return  Math.random() * -10;
+            return  Math.random() * -3;
         }
     }
 
-
+    // generates a random z value (should be distance in room)
     function RNDZ() {
         if(Math.round(Math.random()) == 1){
-            return Math.random() *12;
+            return Math.random() * 2;
         }else{
-            return  Math.random() * -12;
+            return  Math.random() * (-2);
         }
     }
 
+    // generates a random y value (height)
     function RNDY() {
-        return Math.random() * 10;
+        return Math.random() * 3;
     }
 
 
@@ -79,7 +83,7 @@ export function ray_demo(scene, options, camera) {
             return intersects[0].object;
         }else{
             //strahl länge
-            raylength = 10;
+            raylength = 100;
             rayEnd.addVectors(position, direction.multiplyScalar(raylength));
             setPos(1, rayEnd);
         }
@@ -142,16 +146,27 @@ export function ray_demo(scene, options, camera) {
         let box = meshes.create(7);
         box.castShadow = true;
         box.matrixAutoUpdate = false;
+
+        // let xrndm = 0;
+        // let yrndm = 0;
+        // let zrndm = 0;
+        // while(xrndm+yrndm+zrndm < 6) {
+        //     xrndm = RNDX();
+        //     yrndm = RNDY();
+        //     zrndm = RNDZ();
+        // }
+        // box.position.set(xrndm,yrndm,zrndm);
+
         if(Math.round(Math.random()) == 1){
-            box.position.set(RNDX(), RNDY(), -12);
+            box.position.set(RNDX(), RNDY(), -3);
         }else{
             if(Math.round(Math.random()) == 1){
-                box.position.set(12, RNDY(), RNDZ());
+                box.position.set(3, RNDY(), RNDZ());
             }else{
-                box.position.set(-12, RNDY(), RNDZ());
+                box.position.set(-3, RNDY(), RNDZ());
             }
         }
-        vector.subVectors(box.position, options.cursor.position).setLength(0.01);
+        vector.subVectors(box.position, options.cursor.position).setLength(0.004);
         box.v = vector;
         box.audio = false;
         box.sound = sound; 
@@ -168,6 +183,10 @@ export function ray_demo(scene, options, camera) {
 
 
     function checkCollision(pos, cursor){
+        if (pos == undefined || cursor == undefined){ 
+            return false;
+        }
+            
         let vec = new THREE.Vector3();
         vec.subVectors(pos, cursor);
         if(vec.length() < 0.01){
@@ -198,8 +217,23 @@ export function ray_demo(scene, options, camera) {
             obj.sound.setVolume( 0.5 );
             obj.sound.play();
         });
-       
     }
+
+    function playAudio(path){
+        const listener = new THREE.AudioListener();
+        listener.hasPlaybackControl = true;
+        camera.add( listener );
+        const sound = new THREE.Audio( listener );
+        const audioLoader = new THREE.AudioLoader();
+        audioLoader.load( path, function( buffer ) {
+            sound.setBuffer( buffer );
+            sound.hasPlaybackControl = true;
+            sound.setLoop( false );
+            sound.setVolume( 0.6 );
+            sound.play();
+        });
+    }
+
 
     let array_of_objects = [];
     let playBtn = [];
@@ -208,6 +242,10 @@ export function ray_demo(scene, options, camera) {
     for (let i = 0; i < 3; ++i) {
         createBall();
     }
+
+    // play start sonud
+    playAudio('./sounds/start.ogg');
+
     let gameover = false;
 
     meshes.update = function (time, options) {
@@ -218,6 +256,10 @@ export function ray_demo(scene, options, camera) {
             if(hitObject && options.is_grabbed){
                 playBtn[0].visible = false;
                 gameover = false;
+                // life counter
+                lifeLeft = 3;
+                
+
                 for (let i = 0; i < 3; ++i) {
                     createBall();
                 }
@@ -235,6 +277,15 @@ export function ray_demo(scene, options, camera) {
                 obj.updateMatrix();
 
                 if(checkCollision(obj.position, options.cursor.position)){
+
+                    lifeLeft--;
+                    if(lifeLeft == 2) {
+                        playAudio('./sounds/2left.ogg');
+                    } else if (lifeLeft == 1) {
+                        playAudio('./sounds/1left.ogg');
+                    } else {
+
+                    // finally game over
                     console.log("game over");
                     gameover = true;
                     playBtn[0] = meshes.create(0);
@@ -246,12 +297,14 @@ export function ray_demo(scene, options, camera) {
                     for(let o of array_of_objects){
                         if(o.audio){
                             o.audio = false;
-                            o.sound.stop();
+                            o.sound.stop(); // bug in safari?
                         }
                         o.visible = false;
                     }
                     array_of_objects = [];
+                    playAudio('./sounds/gameover.ogg');
                     break;  
+                }
                 }
                 if(checkRange(obj.position, options.cursor.position, 10)){
                     if(!obj.audio){

@@ -122,18 +122,6 @@ export function ray_demo(scene, options, camera) {
         }
     }
 
-    //option.is_grabbed prüft ob taste gedrückt ist
-    //hitObject wenn objekt getroffen ist dort das objekt gespeichert
-    //grabbed_laser laser wird nur so weit gezeichnet bis objekt und geupdated
-   /* meshes.update = function (time, options) {
-        if (hitObject && options.is_grabbed) {
-            grabbed_laser(options.cursor);
-        } else {
-            hitObject = update_laser(options.cursor);
-        }
-        grabbing(options.cursor, hitObject, options.is_grabbed)
-    }*/
-
     function createBall(){
         // create an AudioListener and add it to the camera
         const listener = new THREE.AudioListener();
@@ -146,16 +134,6 @@ export function ray_demo(scene, options, camera) {
         let box = meshes.create(7);
         box.castShadow = true;
         box.matrixAutoUpdate = false;
-
-        // let xrndm = 0;
-        // let yrndm = 0;
-        // let zrndm = 0;
-        // while(xrndm+yrndm+zrndm < 6) {
-        //     xrndm = RNDX();
-        //     yrndm = RNDY();
-        //     zrndm = RNDZ();
-        // }
-        // box.position.set(xrndm,yrndm,zrndm);
 
         if(Math.round(Math.random()) == 1){
             box.position.set(RNDX(), RNDY(), -3);
@@ -206,7 +184,7 @@ export function ray_demo(scene, options, camera) {
         }
     }
 
-
+    // function to load audio for the balls
     function loadAudio(obj){
         // load a sound and set it as the Audio object's buffer
         const audioLoader = new THREE.AudioLoader();
@@ -219,6 +197,7 @@ export function ray_demo(scene, options, camera) {
         });
     }
 
+    // function to play the general ogg audios
     function playAudio(path){
         const listener = new THREE.AudioListener();
         listener.hasPlaybackControl = true;

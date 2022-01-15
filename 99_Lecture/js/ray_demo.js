@@ -3,6 +3,9 @@ import { MeshSet, Line } from './geo.js';
 
 // gloabl variables
 let lifeLeft = 3;
+let difficulty = 50;
+let ballsOnBegin = 3;
+
 
 export function ray_demo(scene, options, camera) {
     let meshes = MeshSet(scene);
@@ -144,7 +147,7 @@ export function ray_demo(scene, options, camera) {
                 box.position.set(-3, RNDY(), RNDZ());
             }
         }
-        vector.subVectors(box.position, options.cursor.position).setLength(0.004);
+        vector.subVectors(box.position, options.cursor.position).setLength(0.004); // speed
         box.v = vector;
         box.audio = false;
         box.sound = sound; 
@@ -217,8 +220,8 @@ export function ray_demo(scene, options, camera) {
     let array_of_objects = [];
     let playBtn = [];
 
-
-    for (let i = 0; i < 3; ++i) {
+    // create the first balls
+    for (let i = 0; i < ballsOnBegin; ++i) {
         createBall();
     }
 
@@ -238,14 +241,14 @@ export function ray_demo(scene, options, camera) {
                 // life counter
                 lifeLeft = 3;
                 
-
-                for (let i = 0; i < 3; ++i) {
+                // create the first balls again
+                for (let i = 0; i < ballsOnBegin; ++i) {
                     createBall();
                 }
             }
         }else{
             // spawns randomly new balls during the game
-            if(Math.floor(Math.random() * 30) == 0){
+            if(Math.floor(Math.random() * difficulty) == 0){ 
                 createBall();
             }
 

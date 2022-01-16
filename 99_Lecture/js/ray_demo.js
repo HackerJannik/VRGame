@@ -5,6 +5,7 @@ import { MeshSet, Line } from './geo.js';
 let lifeLeft = 3;
 let difficulty = 50; // bigger means less balls
 let ballsOnBegin = 3;
+let distanceToSound = 1.5; // 
 
 
 export function ray_demo(scene, options, camera) {
@@ -191,7 +192,7 @@ export function ray_demo(scene, options, camera) {
     function loadAudio(obj){
         // load a sound and set it as the Audio object's buffer
         const audioLoader = new THREE.AudioLoader();
-        audioLoader.load( './sounds/heart.ogg', function( buffer ) {
+        audioLoader.load( './sounds/alarm.ogg', function( buffer ) {
             obj.sound.setBuffer( buffer );
             obj.sound.hasPlaybackControl = true;
             obj.sound.setLoop( true );
@@ -288,7 +289,7 @@ export function ray_demo(scene, options, camera) {
                     break;  
                 }
                 }
-                if(checkRange(obj.position, options.cursor.position, 10)){
+                if(checkRange(obj.position, options.cursor.position, distanceToSound)){
                     if(!obj.audio){
                         loadAudio(obj); 
                         obj.audio = true;

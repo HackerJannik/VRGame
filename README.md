@@ -1,6 +1,6 @@
 # HS Esslingen | MCI2 | VR Game 
 
-https://hackerjannik.github.io/VRGame/
+Public Link: https://hackerjannik.github.io/VRGame/
 
 ## Authors
 

@@ -271,7 +271,7 @@ export function ray_demo(scene, options, camera) {
                         for(let o of array_of_objects){
                             if(o.audio){
                                 o.audio = false;
-                                o.sound.stop(); // bug in safari?
+                            //    o.sound.stop(); // bug in safari?
                             }
                             o.visible = false;
                         }
@@ -285,7 +285,7 @@ export function ray_demo(scene, options, camera) {
                         for(let o of array_of_objects){
                             if(o.audio){
                                 o.audio = false;
-                                o.sound.stop(); // bug in safari?
+                       //         o.sound.stop(); // bug in safari?
                             }
                             o.visible = false;
                         }
@@ -305,7 +305,7 @@ export function ray_demo(scene, options, camera) {
                     for(let o of array_of_objects){
                         if(o.audio){
                             o.audio = false;
-                            o.sound.stop(); // bug in safari?
+                           // o.sound.stop(); // bug in safari?
                         }
                         o.visible = false;
                     }
@@ -328,13 +328,12 @@ export function ray_demo(scene, options, camera) {
                 let obj = array_of_objects[index];
                 hitObject.visible = false;
 
-                obj.sound.stop();
+             //   obj.sound.stop();
                 array_of_objects.splice(index, 1);
-                console.log(array_of_objects);
             }
 
         }
     }
-        
+         
     return meshes;
 }

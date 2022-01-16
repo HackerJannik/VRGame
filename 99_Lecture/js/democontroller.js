@@ -5,9 +5,9 @@ import { navigation_demo } from './navigation_demo.js'
 export function CreateDemos(scene, options, camera) {
     let demos = DemoController();
     demos.add(ray_demo(scene, options, camera));
-    demos.add(navigation_demo(scene, options));
-    demos.add(simple_demo(scene, options));
-    demos.add(animation_demo(scene, options));
+    // demos.add(navigation_demo(scene, options));
+    // demos.add(simple_demo(scene, options));
+    // demos.add(animation_demo(scene, options));
     demos.resetController();
     return demos;
 }

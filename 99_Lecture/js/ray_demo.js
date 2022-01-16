@@ -195,8 +195,8 @@ export function ray_demo(scene, options, camera) {
         audioLoader.load( './sounds/alarm.ogg', function( buffer ) {
             obj.sound.setBuffer( buffer );
             obj.sound.hasPlaybackControl = true;
-            obj.sound.setLoop( true );
-            obj.sound.setVolume( 0.5 );
+            obj.sound.setLoop( false );
+            obj.sound.setVolume( 0.3 );
             obj.sound.play();
         });
     }
@@ -262,10 +262,35 @@ export function ray_demo(scene, options, camera) {
                 if(checkCollision(obj.position, options.cursor.position)){
 
                     lifeLeft--;
+
                     if(lifeLeft == 2) {
+                        // play aduio 2 lifes left after this hit
                         playAudio('./sounds/2left.ogg');
+                        
+                        // clear the screen
+                        for(let o of array_of_objects){
+                            if(o.audio){
+                                o.audio = false;
+                                o.sound.stop(); // bug in safari?
+                            }
+                            o.visible = false;
+                        }
+                        array_of_objects = [];
+
                     } else if (lifeLeft == 1) {
+                        // play aduio 1 life left after this hit
                         playAudio('./sounds/1left.ogg');
+
+                        // clear the screen
+                        for(let o of array_of_objects){
+                            if(o.audio){
+                                o.audio = false;
+                                o.sound.stop(); // bug in safari?
+                            }
+                            o.visible = false;
+                        }
+                        array_of_objects = [];
+
                     } else {
 
                     // finally game over
@@ -276,7 +301,7 @@ export function ray_demo(scene, options, camera) {
                     playBtn[0].matrixAutoUpdate = false;
                     playBtn[0].position.set(0,0,-5);
                     playBtn[0].updateMatrix();
-                    
+                
                     for(let o of array_of_objects){
                         if(o.audio){
                             o.audio = false;

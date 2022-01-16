@@ -1,4 +1,4 @@
-import * as THREE from './libThree/three.module.js';
+import * as THREE from './three.module.js';
 export { THREE };
 import { Scene, Renderer } from './basics.js';
 import { Keyboard, Mouse } from './devices.js';

@@ -1,4 +1,4 @@
-		import * as THREE from '../../../libThree/three.module.js';
+		import * as THREE from './three.module.js';
 
         //Create scene
         var scene = new THREE.Scene();
